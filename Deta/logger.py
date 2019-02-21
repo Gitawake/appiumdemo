@@ -5,17 +5,18 @@ import time
 
 class Logger(object):
     def __init__(self):
-
         # 创建一个logger
         self.logger = logging.getLogger('bench-server')
         self.logger.setLevel(logging.DEBUG)
 
         # 创建一个handler，用于写入日志文件
         rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-        # log_path = os.path.dirname(os.getcwd()) + '/Logs/'  # 项目根目录下/Logs 保存日志
-        log_path = os.path.dirname(os.path.abspath('.')) + '/logs/'
-        # 如果case组织结构式 /testsuit/featuremodel/xxx.py ， 那么得到的相对路径的父路径就是项目根目录
-        log_name = log_path + rq + '.log'
+        # 判断需要的log文件夹是否存在，否则创建一个
+        log_dir = os.path.dirname(os.path.abspath('.')) + '/logs/'
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+
+        log_name = log_dir + rq + '.log'
         fh = logging.FileHandler(log_name)
         fh.setLevel(logging.INFO)
 

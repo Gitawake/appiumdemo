@@ -18,10 +18,14 @@ class BaseTestCase(unittest.TestCase):
         time.sleep(5)
 
     def tearDown(self):
+        # 判断需要的png文件夹是否存在，否则创建一个
+        png_dir = os.path.dirname(os.path.abspath('.')) + '/png/'
+        if not os.path.exists(png_dir):
+            os.makedirs(png_dir)
         # 截取运行结果图片
         try:
             now = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
-            self.driver.get_screenshot_as_file((os.path.dirname(os.path.abspath('.')) + '/png/') + now + ".png")
+            self.driver.get_screenshot_as_file(png_dir + now + ".png")
             Basic_class.logger.info("成功保存运行结果截图>")
         except Exception as e:
             Basic_class.logger.error("保存运行结果截图失败>" + e)
