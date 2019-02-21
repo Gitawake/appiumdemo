@@ -28,5 +28,5 @@ class BaseTestCase(unittest.TestCase):
             self.driver.get_screenshot_as_file(png_dir + now + ".png")
             Basic_class.logger.info("成功保存运行结果截图>")
         except Exception as e:
-            Basic_class.logger.error("保存运行结果截图失败>" + e)
+            Basic_class.logger.error("保存运行结果截图失败>" + str(e))
         self.driver.quit()

@@ -33,7 +33,7 @@ class Web_test_login(BaseTestCase):
             logger.info("成功等待的元素>" + type + "：" + element)
         except Exception as e:
             logger.info("未等到等待的元素>" + type + "：" + element)
-            logger.error(e)
+            logger.error(str(e))
             raise
 
     # 输入内容方法
@@ -58,7 +58,7 @@ class Web_test_login(BaseTestCase):
             logger.info("成功在>" + element + "！输入值：" + content)
         except Exception as e:
             logger.info("未能在>" + element + "！输入值：" + content)
-            logger.error(e)
+            logger.error(str(e))
             raise
 
     # 元素点击方法
@@ -83,7 +83,7 @@ class Web_test_login(BaseTestCase):
             logger.info("成功点击指定元素>" + type + "：" + element)
         except Exception as e:
             logger.info("点击指定元素失败>" + type + "：" + element)
-            logger.error(e)
+            logger.error(str(e))
             raise
 
     # 元素操作方法
@@ -108,7 +108,7 @@ class Web_test_login(BaseTestCase):
             logger.info("成功清除指定元素>" + type + "：" + element)
         except Exception as e:
             logger.info("清除指定元素失败>" + type + "：" + element)
-            logger.error(e)
+            logger.error(str(e))
             raise
 
     # 滑动验证码方法

@@ -23,7 +23,7 @@ def add_case(rule="test*.py"):
         Basic_class.logger.info("成功加载所有用例>")
         return discover
     except Exception as e:
-        Basic_class.logger.error("用例加载失败>" + e)
+        Basic_class.logger.error("用例加载失败>" + str(e))
         raise
 
 
@@ -43,7 +43,7 @@ def run_case(all_case):
         fp.close()
         Basic_class.logger.info("成功把执行结果写入HTML测试报告>")
     except Exception as e:
-        Basic_class.logger.error("HTML测试报告生成失败>" + e)
+        Basic_class.logger.error("HTML测试报告生成失败>" + str(e))
         raise
 
 
@@ -58,7 +58,7 @@ def get_report_file(report_path):
         Basic_class.logger.info("成功获取最新生成的HTML报告>")
         return report_file
     except Exception as e:
-        Basic_class.logger.error("获取最新HTML报告失败>" + e)
+        Basic_class.logger.error("获取最新HTML报告失败>" + str(e))
         raise
 
 
@@ -73,7 +73,7 @@ def send_yagmail(report_file):
         yag.send(['8888888@qq.com', '99999999@qq.com'], '邮件主题', contents, report_file)
         Basic_class.logger.info("发送邮箱成功>")
     except Exception as e:
-        Basic_class.logger.error("发送邮箱失败>" + e)
+        Basic_class.logger.error("发送邮箱失败>" + str(e))
         raise
 
 
