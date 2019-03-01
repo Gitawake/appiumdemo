@@ -3,7 +3,7 @@ import time
 from Deta import HTMLTestRunner
 import os
 import yagmail
-from Deta import Basic_class
+from Deta.base_test_case import BaseTestCase
 
 # 当前脚本所在文件真实路径
 cur_path = os.path.dirname(os.path.abspath('.')) + '/Encapsulation/'
@@ -17,13 +17,13 @@ if not os.path.exists(report_dir):
 def add_case(rule="test*.py"):
     try:
         # 第一步：加载所有的测试用例
-        discover = unittest.defaultTestLoader.discover(cur_path,
-                                                       pattern=rule,
-                                                       top_level_dir=None)
-        Basic_class.logger.info("成功加载所有用例>")
+        discover = unittest.defaultTestLoader.discover(cur_path, pattern=rule, top_level_dir=None)
+        BaseTestCase.logger.info("成功加载测试用例...")
+        print(discover)
         return discover
     except Exception as e:
-        Basic_class.logger.error("用例加载失败>" + str(e))
+        BaseTestCase.logger.error("加载测试用例失败...")
+        BaseTestCase.logger.error(e)
         raise
 
 
@@ -41,9 +41,10 @@ def run_case(all_case):
         # 调用add_case函数返回值
         runner.run(all_case)
         fp.close()
-        Basic_class.logger.info("成功把执行结果写入HTML测试报告>")
+        BaseTestCase.logger.info("成功写入HTML测试报告...")
     except Exception as e:
-        Basic_class.logger.error("HTML测试报告生成失败>" + str(e))
+        BaseTestCase.logger.error("写入HTML测试报告失败...")
+        BaseTestCase.logger.error(e)
         raise
 
 
@@ -55,10 +56,11 @@ def get_report_file(report_path):
         print(u'最新测试生成的报告： ' + lists[-1])
         # 找到最新生成的报告文件
         report_file = os.path.join(report_path, lists[-1])
-        Basic_class.logger.info("成功获取最新生成的HTML报告>")
+        BaseTestCase.logger.info("成功获取最新HTML测试报告...")
         return report_file
     except Exception as e:
-        Basic_class.logger.error("获取最新HTML报告失败>" + str(e))
+        BaseTestCase.logger.error("获取最新HTML测试报告失败...")
+        BaseTestCase.logger.error(e)
         raise
 
 
@@ -71,9 +73,10 @@ def send_yagmail(report_file):
         contents = ['邮件正文', '用例执行情况：']
         # 给多人发送邮件，发送多个附件。如果只发送1个，就去掉列表。
         yag.send(['8888888@qq.com', '99999999@qq.com'], '邮件主题', contents, report_file)
-        Basic_class.logger.info("发送邮箱成功>")
+        BaseTestCase.logger.info("成功发送邮箱...")
     except Exception as e:
-        Basic_class.logger.error("发送邮箱失败>" + str(e))
+        BaseTestCase.logger.error("发送邮箱失败...")
+        BaseTestCase.logger.error(e)
         raise
 
 

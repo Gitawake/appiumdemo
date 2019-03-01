@@ -1,11 +1,8 @@
 from selenium.webdriver import ActionChains
 from Deta.base_test_case import BaseTestCase
-from Deta.logger import Logger
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
-logger = Logger().getlog()
 
 
 class Web_test_login(BaseTestCase):
@@ -30,10 +27,10 @@ class Web_test_login(BaseTestCase):
                 wait.until(EC.presence_of_element_located((By.TAG_NAME, element)))
             elif type == "xpath":
                 wait.until(EC.presence_of_element_located((By.XPATH, element)))
-            logger.info("成功等待的元素>" + type + "：" + element)
+            BaseTestCase.logger.info("成功等待的元素>" + type + "：" + element)
         except Exception as e:
-            logger.info("未等到等待的元素>" + type + "：" + element)
-            logger.error(str(e))
+            BaseTestCase.logger.error("未等到等待的元素>" + type + "：" + element)
+            BaseTestCase.logger.error(e)
             raise
 
     # 输入内容方法
@@ -55,10 +52,10 @@ class Web_test_login(BaseTestCase):
                 self.driver.find_element_by_tag_name(element).send_keys(content)
             elif type == "xpath":
                 self.driver.find_element_by_xpath(element).send_keys(content)
-            logger.info("成功在>" + element + "！输入值：" + content)
+            BaseTestCase.logger.info("成功在>" + element + "！输入值：" + content)
         except Exception as e:
-            logger.info("未能在>" + element + "！输入值：" + content)
-            logger.error(str(e))
+            BaseTestCase.logger.info("未能在>" + element + "！输入值：" + content)
+            BaseTestCase.logger.error(e)
             raise
 
     # 元素点击方法
@@ -80,10 +77,10 @@ class Web_test_login(BaseTestCase):
                 self.driver.find_element_by_tag_name(element).click()
             elif type == "xpath":
                 self.driver.find_element_by_xpath(element).click()
-            logger.info("成功点击指定元素>" + type + "：" + element)
+            BaseTestCase.logger.info("成功点击指定元素>" + type + "：" + element)
         except Exception as e:
-            logger.info("点击指定元素失败>" + type + "：" + element)
-            logger.error(str(e))
+            BaseTestCase.logger.info("点击指定元素失败>" + type + "：" + element)
+            BaseTestCase.logger.error(e)
             raise
 
     # 元素操作方法
@@ -105,10 +102,10 @@ class Web_test_login(BaseTestCase):
                 self.driver.find_element_by_tag_name(element).clear()
             elif type == "xpath":
                 self.driver.find_element_by_xpath(element).clear()
-            logger.info("成功清除指定元素>" + type + "：" + element)
+            BaseTestCase.logger.info("成功清除指定元素>" + type + "：" + element)
         except Exception as e:
-            logger.info("清除指定元素失败>" + type + "：" + element)
-            logger.error(str(e))
+            BaseTestCase.logger.info("清除指定元素失败>" + type + "：" + element)
+            BaseTestCase.logger.error(e)
             raise
 
     # 滑动验证码方法
