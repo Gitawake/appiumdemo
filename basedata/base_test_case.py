@@ -1,8 +1,8 @@
+from basedata.logger import Logger
+from appium import webdriver
 import unittest
 import time
-from appium import webdriver
 import os.path
-from Deta.logger import Logger
 
 
 class BaseTestCase(unittest.TestCase):
@@ -12,7 +12,7 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         try:
-            # appium初始化参数
+            # appium初始化参数，CMD下：adb connect 127.0.0.1:62001
             desired_caps = {'platformName': "Android",
                             'platformVersion': '4.4.2',
                             'deviceName': '127.0.0.1:62001',
@@ -21,10 +21,10 @@ class BaseTestCase(unittest.TestCase):
 
             # 建立 session
             self.driver = webdriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)
+
             BaseTestCase.logger.info('成功与app建立session...')
         except Exception as e:
-            BaseTestCase.logger.error('与app建立session失败...')
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.error('与app建立session失败...' + format(e))
 
         time.sleep(5)
 
@@ -38,10 +38,11 @@ class BaseTestCase(unittest.TestCase):
         try:
             now = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
             self.driver.get_screenshot_as_file(png_dir + now + ".png")
+
             BaseTestCase.logger.info("成功保存运行结果截图...")
         except Exception as e:
-            BaseTestCase.logger.error("保存运行结果截图失败...")
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.error("保存运行结果截图失败..." + format(e))
 
         # 单个用例执行完毕后关闭app
+        BaseTestCase.logger.info('*************************************单元分割线*************************************')
         self.driver.quit()

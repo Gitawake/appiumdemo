@@ -1,111 +1,119 @@
 from selenium.webdriver import ActionChains
-from Deta.base_test_case import BaseTestCase
+from basedata.base_test_case import BaseTestCase
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
-class Web_test_login(BaseTestCase):
+class Two_Encapsulation(BaseTestCase):
 
     # 显式等待方法
-    def wait_element(self, type, element):
+    def wait_element(self, lookup, element):
         wait = WebDriverWait(self.driver, 10)
         try:
-            if type == "class_name":
+            if lookup == "class_name":
                 wait.until(EC.presence_of_element_located((By.CLASS_NAME, element)))
-            elif type == "css_selector":
+            elif lookup == "css_selector":
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, element)))
-            elif type == "id":
+            elif lookup == "id":
                 wait.until(EC.presence_of_element_located((By.ID, element)))
-            elif type == "link_text":
+            elif lookup == "link_text":
                 wait.until(EC.presence_of_element_located((By.LINK_TEXT, element)))
-            elif type == "name":
+            elif lookup == "name":
                 wait.until(EC.presence_of_element_located((By.NAME, element)))
-            elif type == "partial_link_text":
+            elif lookup == "partial_link_text":
                 wait.until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, element)))
-            elif type == "tag_name":
+            elif lookup == "tag_name":
                 wait.until(EC.presence_of_element_located((By.TAG_NAME, element)))
-            elif type == "xpath":
+            elif lookup == "xpath":
                 wait.until(EC.presence_of_element_located((By.XPATH, element)))
-            BaseTestCase.logger.info("成功等待的元素>" + type + "：" + element)
+            else:
+                BaseTestCase.logger.error("没有定义需要的元素参数...")
+
+            BaseTestCase.logger.info("成功等待的元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.error("未等到等待的元素>" + type + "：" + element)
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.error("未等到等待的元素 ->" + lookup + "：" + element + format(e))
             raise
 
     # 输入内容方法
-    def element_input(self, type, element, content):
+    def element_input(self, lookup, element, content):
         try:
-            if type == "class_name":
+            if lookup == "class_name":
                 self.driver.find_element_by_class_name(element).send_keys(content)
-            elif type == "css_selector":
+            elif lookup == "css_selector":
                 self.driver.find_element_by_css_selector(element).send_keys(content)
-            elif type == "id":
+            elif lookup == "id":
                 self.driver.find_element_by_id(element).send_keys(content)
-            elif type == "link_text":
+            elif lookup == "link_text":
                 self.driver.find_element_by_link_text(element).send_keys(content)
-            elif type == "name":
+            elif lookup == "name":
                 self.driver.find_element_by_name(element).send_keys(content)
-            elif type == "partial_link_text":
+            elif lookup == "partial_link_text":
                 self.driver.find_element_by_partial_link_text(element).send_keys(content)
-            elif type == "tag_name":
+            elif lookup == "tag_name":
                 self.driver.find_element_by_tag_name(element).send_keys(content)
-            elif type == "xpath":
+            elif lookup == "xpath":
                 self.driver.find_element_by_xpath(element).send_keys(content)
-            BaseTestCase.logger.info("成功在>" + element + "！输入值：" + content)
+            else:
+                BaseTestCase.logger.error("没有定义需要的元素参数...")
+
+            BaseTestCase.logger.info("成功在 ->" + element + "！输入值：" + content)
         except Exception as e:
-            BaseTestCase.logger.info("未能在>" + element + "！输入值：" + content)
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.info("未能在 ->" + element + "！输入值：" + content + format(e))
             raise
 
     # 元素点击方法
-    def element_click(self, type, element):
+    def element_click(self, lookup, element):
         try:
-            if type == "class_name":
+            if lookup == "class_name":
                 self.driver.find_element_by_class_name(element).click()
-            elif type == "css_selector":
+            elif lookup == "css_selector":
                 self.driver.find_element_by_css_selector(element).click()
-            elif type == "id":
+            elif lookup == "id":
                 self.driver.find_element_by_id(element).click()
-            elif type == "link_text":
+            elif lookup == "link_text":
                 self.driver.find_element_by_link_text(element).click()
-            elif type == "name":
+            elif lookup == "name":
                 self.driver.find_element_by_name(element).click()
-            elif type == "partial_link_text":
+            elif lookup == "partial_link_text":
                 self.driver.find_element_by_partial_link_text(element).click()
-            elif type == "tag_name":
+            elif lookup == "tag_name":
                 self.driver.find_element_by_tag_name(element).click()
-            elif type == "xpath":
+            elif lookup == "xpath":
                 self.driver.find_element_by_xpath(element).click()
-            BaseTestCase.logger.info("成功点击指定元素>" + type + "：" + element)
+            else:
+                BaseTestCase.logger.error("没有定义需要的元素参数...")
+
+            BaseTestCase.logger.info("成功点击指定元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.info("点击指定元素失败>" + type + "：" + element)
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.info("点击指定元素失败 ->" + lookup + "：" + element + format(e))
             raise
 
-    # 元素操作方法
-    def Clear_text(self, type, element):
+    # 文本清除操作方法
+    def Clear_text(self, lookup, element):
         try:
-            if type == "class_name":
+            if lookup == "class_name":
                 self.driver.find_element_by_class_name(element).clear()
-            elif type == "css_selector":
+            elif lookup == "css_selector":
                 self.driver.find_element_by_css_selector(element).clear()
-            elif type == "id":
+            elif lookup == "id":
                 self.driver.find_element_by_id(element).clear()
-            elif type == "link_text":
+            elif lookup == "link_text":
                 self.driver.find_element_by_link_text(element).clear()
-            elif type == "name":
+            elif lookup == "name":
                 self.driver.find_element_by_name(element).clear()
-            elif type == "partial_link_text":
+            elif lookup == "partial_link_text":
                 self.driver.find_element_by_partial_link_text(element).clear()
-            elif type == "tag_name":
+            elif lookup == "tag_name":
                 self.driver.find_element_by_tag_name(element).clear()
-            elif type == "xpath":
+            elif lookup == "xpath":
                 self.driver.find_element_by_xpath(element).clear()
-            BaseTestCase.logger.info("成功清除指定元素>" + type + "：" + element)
+            else:
+                BaseTestCase.logger.error("没有定义需要的元素参数...")
+
+            BaseTestCase.logger.info("成功清除指定元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.info("清除指定元素失败>" + type + "：" + element)
-            BaseTestCase.logger.error(e)
+            BaseTestCase.logger.info("清除指定元素失败 ->" + lookup + "：" + element + format(e))
             raise
 
     # 滑动验证码方法
@@ -115,4 +123,4 @@ class Web_test_login(BaseTestCase):
         action.click_and_hold(button).perform()  # perform()用来执行ActionChains中存储的行为
         action.reset_actions()
         action.move_by_offset(260, 0).perform()  # 移动滑块
-        Web_test_login.wait_element(self, "class", "nc_iconfont btn_ok")
+        Two_Encapsulation.wait_element(self, "class", "nc_iconfont btn_ok")
