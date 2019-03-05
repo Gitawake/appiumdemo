@@ -82,5 +82,5 @@ class FrameEngine(object):
 if __name__ == "__main__":
     case = FrameEngine.add_case()  # 1加载用例
     FrameEngine.run_case(case)  # 2执行用例
-    file = FrameEngine.get_report_file(FrameEngine.report_dir)  # 3获取最新的测试报告
-    FrameEngine.send_yagmail(file)  # 4最后一步发送报告
+    # file = FrameEngine.get_report_file(FrameEngine.report_dir)  # 3获取最新的测试报告
+    # FrameEngine.send_yagmail(file)  # 4最后一步发送报告
