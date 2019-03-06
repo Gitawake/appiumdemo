@@ -24,7 +24,7 @@ class BaseTestCase(unittest.TestCase):
 
             BaseTestCase.logger.info('成功与app建立session...')
         except Exception as e:
-            BaseTestCase.logger.error('与app建立session失败...' + format(e))
+            BaseTestCase.logger.error('与app建立session失败... \n' + format(e))
 
         time.sleep(5)
 
@@ -41,7 +41,7 @@ class BaseTestCase(unittest.TestCase):
 
             BaseTestCase.logger.info("成功保存运行结果截图...")
         except Exception as e:
-            BaseTestCase.logger.error("保存运行结果截图失败..." + format(e))
+            BaseTestCase.logger.error("保存运行结果截图失败... \n" + format(e))
 
         # 单个用例执行完毕后关闭app
         BaseTestCase.logger.info('*************************************单元分割线*************************************')

@@ -13,7 +13,7 @@ class FrameEngine(object):
         os.makedirs(report_dir)
 
     @staticmethod
-    def add_case(rule="test*.py"):
+    def add_case(rule="case*.py"):
         try:
             # 第一步：加载所有的测试用例
             cur_path = os.path.dirname(os.path.abspath('.')) + '/test_case/'  # 当前脚本所在文件真实路径
@@ -24,7 +24,7 @@ class FrameEngine(object):
             print(discover)
             return discover
         except Exception as e:
-            BaseTestCase.logger.error("加载测试用例失败..." + format(e))
+            BaseTestCase.logger.error("加载测试用例失败... \n" + format(e))
             raise
 
     @staticmethod
@@ -43,7 +43,7 @@ class FrameEngine(object):
             fp.close()
             BaseTestCase.logger.info("成功写入HTML测试报告...")
         except Exception as e:
-            BaseTestCase.logger.error("写入HTML测试报告失败..." + format(e))
+            BaseTestCase.logger.error("写入HTML测试报告失败... \n" + format(e))
             raise
 
     @staticmethod
@@ -59,7 +59,7 @@ class FrameEngine(object):
             BaseTestCase.logger.info("成功获取最新HTML测试报告...")
             return case_file
         except Exception as e:
-            BaseTestCase.logger.error("获取最新HTML测试报告失败..." + format(e))
+            BaseTestCase.logger.error("获取最新HTML测试报告失败... \n" + format(e))
             raise
 
     @staticmethod
@@ -75,7 +75,7 @@ class FrameEngine(object):
 
             BaseTestCase.logger.info("成功发送邮箱...")
         except Exception as e:
-            BaseTestCase.logger.error("发送邮箱失败..." + format(e))
+            BaseTestCase.logger.error("发送邮箱失败... \n" + format(e))
             raise
 
 

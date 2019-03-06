@@ -32,7 +32,7 @@ class Two_Encapsulation(BaseTestCase):
 
             BaseTestCase.logger.info("成功等待的元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.error("未等到等待的元素 ->" + lookup + "：" + element + format(e))
+            BaseTestCase.logger.error("未等到等待的元素 ->" + lookup + "：" + element + "\n" + format(e))
             raise
 
     # 输入内容方法
@@ -59,7 +59,7 @@ class Two_Encapsulation(BaseTestCase):
 
             BaseTestCase.logger.info("成功在 ->" + element + "！输入值：" + content)
         except Exception as e:
-            BaseTestCase.logger.error("未能在 ->" + element + "！输入值：" + content + format(e))
+            BaseTestCase.logger.error("未能在 ->" + element + "！输入值：" + content + "\n" + format(e))
             raise
 
     # 元素点击方法
@@ -86,7 +86,7 @@ class Two_Encapsulation(BaseTestCase):
 
             BaseTestCase.logger.info("成功点击指定元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.error("点击指定元素失败 ->" + lookup + "：" + element + format(e))
+            BaseTestCase.logger.error("点击指定元素失败 ->" + lookup + "：" + element + "\n" + format(e))
             raise
 
     # 文本清除操作方法
@@ -113,7 +113,7 @@ class Two_Encapsulation(BaseTestCase):
 
             BaseTestCase.logger.info("成功清除指定元素 ->" + lookup + "：" + element)
         except Exception as e:
-            BaseTestCase.logger.error("清除指定元素失败 ->" + lookup + "：" + element + format(e))
+            BaseTestCase.logger.error("清除指定元素失败 ->" + lookup + "：" + element + "\n" + format(e))
             raise
 
     # 滑动验证码方法
