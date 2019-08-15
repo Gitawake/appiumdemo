@@ -1,5 +1,5 @@
-from basedata.two_encapsulation import Two_Encapsulation
-from basedata.base_test_case import BaseTestCase
+from bin.seleium_package import Two_Encapsulation
+from bin.Inital_Data import BaseTestCase
 
 
 class Xm_sps(Two_Encapsulation):

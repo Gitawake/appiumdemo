@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import logging
 import os.path
 import time
@@ -10,7 +11,7 @@ class Logger:
         self.logger.setLevel(logging.DEBUG)
 
         # 判断需要的log文件夹是否存在，否则创建一个
-        log_dir = os.path.dirname(os.path.abspath('.')) + '/logs/'
+        log_dir = os.path.dirname(os.path.abspath('.')) + '/output/logs/'
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
 
