@@ -9,10 +9,10 @@ from selenium.webdriver.support import expected_conditions as ec
 class SeleiumNew(BaseTestCase):
 
     # 判断元素是否存在
-    def if_element(self, element_type, element):
+    def if_element(self, wait_time, element_type, element):
         try:
             BaseTestCase.logger.info('判断元素是否存在... --> 元素名称：' + element)
-            wait = WebDriverWait(self.driver, 2)
+            wait = WebDriverWait(self.driver, wait_time)
             wait.until(ec.presence_of_element_located((element_type, element)))
         except Exception as e:
             BaseTestCase.logger.info('元素不存在')
@@ -23,10 +23,10 @@ class SeleiumNew(BaseTestCase):
             return True
 
     # 显式等待方法、断言
-    def wait_element(self, element_type, element):
+    def wait_element(self, wait_time, element_type, element):
         try:
             BaseTestCase.logger.info('查找元素... --> 元素名称：' + element)
-            wait = WebDriverWait(self.driver, 10)
+            wait = WebDriverWait(self.driver, wait_time)
             wait.until(ec.presence_of_element_located((element_type, element)))
         except Exception as e:
             BaseTestCase.logger.info('查找元素失败')

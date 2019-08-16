@@ -34,15 +34,15 @@ class BaseTestCase(unittest.TestCase):
         time.sleep(5)
 
     def tearDown(self):
-        # 判断需要的png文件夹是否存在，否则创建一个
-        png_dir = os.path.dirname(os.path.abspath('.')) + '/output/png/'
-        if not os.path.exists(png_dir):
-            os.makedirs(png_dir)
 
         # 截取运行结果图片
         try:
             BaseTestCase.logger.info("屏幕截图中...")
-            now = time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime(time.time()))
+            # 判断需要的png文件夹是否存在，否则创建一个
+            png_dir = os.path.dirname(os.path.abspath('.')) + '/output/png/'
+            if not os.path.exists(png_dir):
+                os.makedirs(png_dir)
+            now = time.strftime('%Y-%m-%d-%H-%M-%S')
             self.driver.get_screenshot_as_file(png_dir + now + ".png")
 
         except Exception as e:
@@ -53,6 +53,6 @@ class BaseTestCase(unittest.TestCase):
 
         # 单个用例执行完毕后关闭app
         BaseTestCase.logger.info('******************************' +
-                                 str(time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime(time.time()))) +
+                                 str(time.strftime("%Y-%m-%d %H:%M:%S")) +
                                  '******************************')
         self.driver.quit()

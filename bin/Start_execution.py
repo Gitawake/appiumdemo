@@ -35,8 +35,8 @@ class FrameEngine(object):
         try:
             BaseTestCase.logger.info("开始生成HTML测试报告...")
             # 第二步：执行所有的用例, 并把结果写入HTML测试报告
-            now = time.strftime("%Y_%m_%d_%H_%M_%S")
-            report_path = FrameEngine.report_dir + now + "_result.html"
+            now = time.strftime('%Y-%m-%d-%H-%M-%S')
+            report_path = FrameEngine.report_dir + now + "-result.html"
             fp = open(report_path, "wb")
             runner = HTMLTestRunner.HTMLTestRunner(stream=fp,
                                                    title=u'自动化测试报告,测试结果如下：',

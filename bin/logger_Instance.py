@@ -7,7 +7,7 @@ import time
 class Logger:
     def __init__(self):
         # 创建一个logger
-        self.logger = logging.getLogger('Web-server')
+        self.logger = logging.getLogger('App')
         self.logger.setLevel(logging.DEBUG)
 
         # 判断需要的log文件夹是否存在，否则创建一个
@@ -16,7 +16,7 @@ class Logger:
             os.makedirs(log_dir)
 
         # 创建一个handler，用于写入日志文件
-        rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
+        rq = time.strftime('%Y-%m-%d-%H-%M-%S')
         log_name = log_dir + rq + '.log'
         fh = logging.FileHandler(log_name, encoding='utf-8')
         fh.setLevel(logging.INFO)

@@ -9,7 +9,7 @@ class Qzz(SeleiumNew, InputMethod):
     # 初始化启动app
     def mtest_qzz_Initialization(self):
 
-        if SeleiumNew.if_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
+        if SeleiumNew.if_element(self, 2, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
             SeleiumNew.click_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button')
 
         time.sleep(2)
@@ -17,30 +17,33 @@ class Qzz(SeleiumNew, InputMethod):
         time.sleep(1)
         SeleiumNew.simulation_menu_key(self, 4)
 
-        if SeleiumNew.if_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
+        if SeleiumNew.if_element(self, 2, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
             SeleiumNew.click_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button')
 
-        if SeleiumNew.if_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
+        if SeleiumNew.if_element(self, 2, By.ID, 'com.android.packageinstaller:id/permission_allow_button'):
             SeleiumNew.click_element(self, By.ID, 'com.android.packageinstaller:id/permission_allow_button')
 
     # 视频详情页进入视杏模板
     def mtest_qzz_Video_details(self):
-        SeleiumNew.wait_element(self, By.ID, 'com.zsyj.videomake:id/go_made')
+        SeleiumNew.wait_element(self, 10, By.ID, 'com.zsyj.videomake:id/go_made')
+
         SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/go_made')
 
-        if SeleiumNew.if_element(self, By.ID, 'com.zsyj.videomake:id/layout_we_chat_login'):
+        if SeleiumNew.if_element(self, 5, By.ID, 'com.zsyj.videomake:id/layout_we_chat_login'):
             SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/layout_we_chat_login')
-        elif SeleiumNew.if_element(self, By.ID, 'com.zsyj.videomake:id/et_input_code'):
+        elif SeleiumNew.if_element(self, 5, By.ID, 'com.zsyj.videomake:id/et_input_code'):
             SeleiumNew.input_element(self, By.ID, 'com.zsyj.videomake:id/et_input_phone', u'13713777056')
+            time.sleep(1)
             SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/tv_get_code')
             time.sleep(30)
-
-        if SeleiumNew.if_element(self, By.ID, 'com.zsyj.videomake:id/tv_next'):
+        time.sleep(1)
+        if SeleiumNew.if_element(self, 15, By.ID, 'com.zsyj.videomake:id/tv_next'):
             SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/tv_next')
 
-        time.sleep(25)
-        SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/go_made')
-        SeleiumNew.wait_element(self, By.ID, 'com.zsyj.videomake:id/btn_done')
+        if SeleiumNew.if_element(self, 20, By.ID, 'com.zsyj.videomake:id/go_made'):
+            SeleiumNew.click_element(self, By.ID, 'com.zsyj.videomake:id/go_made')
+
+        SeleiumNew.wait_element(self, 10, By.ID, 'com.zsyj.videomake:id/btn_done')
 
     # 搜索页面测试
     def test_qzz_search(self):
@@ -62,9 +65,9 @@ class Qzz(SeleiumNew, InputMethod):
         time.sleep(1)
         InputMethod.enableIME(self, 'adb shell ime set io.appium.settings/.UnicodeIME')
         time.sleep(5)
-        SeleiumNew.wait_element(self, By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]')
+        SeleiumNew.wait_element(self, 10, By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]')
         SeleiumNew.click_element(self, By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]')
-        time.sleep(20)
+        time.sleep(2)
         Qzz.mtest_qzz_Video_details(self)
 
 
