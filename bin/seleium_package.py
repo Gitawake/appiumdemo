@@ -8,71 +8,60 @@ from selenium.webdriver.support import expected_conditions as ec
 
 class SeleiumNew(BaseTestCase):
 
-    # 判断元素是否存在
-    def if_element(self, wait_time, element_type, element):
+    def element_is_exist(self, element_type, element):
         try:
-            BaseTestCase.logger.info('判断元素是否存在... --> 元素名称：' + element)
-            wait = WebDriverWait(self.driver, wait_time)
-            wait.until(ec.presence_of_element_located((element_type, element)))
+            BaseTestCase.logger.info('Start to judge whether the element exists({})'.format(element))
+            self.driver.find_element(element_type, element)
         except Exception as e:
-            BaseTestCase.logger.info('元素不存在')
-            BaseTestCase.logger.error(str(e))
+            BaseTestCase.logger.error('Element not found\n({})'.format(element, str(e)))
             return False
         else:
-            BaseTestCase.logger.info('元素存在')
+            BaseTestCase.logger.info('Element found successfully'.format(element))
             return True
 
-    # 显式等待方法、断言
-    def wait_element(self, wait_time, element_type, element):
+    def element_explicitly_wait(self, wait_time, element_type, element):
         try:
-            BaseTestCase.logger.info('查找元素... --> 元素名称：' + element)
+            BaseTestCase.logger.info('Wait for element({}) {} seconds'.format(element, wait_time))
             wait = WebDriverWait(self.driver, wait_time)
             wait.until(ec.presence_of_element_located((element_type, element)))
         except Exception as e:
-            BaseTestCase.logger.info('查找元素失败')
-            BaseTestCase.logger.error(str(e))
-            raise
+            BaseTestCase.logger.error('Wait for element to timeout\n({})'.format(str(e)))
+            return False
         else:
-            BaseTestCase.logger.info('查找元素成功')
+            BaseTestCase.logger.info('Wait for element to succeed')
+            return True
 
-    # 输入内容方法
-    def input_element(self, element_type, element, content):
+    def element_send_keys(self, element_type, element, content):
         try:
-            BaseTestCase.logger.info('向元素发送字符... --> 内容：' + content + '---|--- 元素名称：' + element)
+            BaseTestCase.logger.info('Send character ({}) to element({})'.format(content, element))
             self.driver.find_element(element_type, element).send_keys(content)
         except Exception as e:
-            BaseTestCase.logger.info('发送字符失败')
-            BaseTestCase.logger.error(str(e))
+            BaseTestCase.logger.error('Send character failed\n({})'.format(str(e)))
             raise
         else:
-            BaseTestCase.logger.info('发送字符成功')
+            BaseTestCase.logger.info('Send character Success')
 
-    # 元素点击方法
-    def click_element(self, element_type, element):
+    def element_click(self, element_type, element):
         try:
-            BaseTestCase.logger.info('点击元素... --> 元素名称：' + element)
+            BaseTestCase.logger.info('Click element({})'.format(element))
             self.driver.find_element(element_type, element).click()
         except Exception as e:
-            BaseTestCase.logger.info('点击元素失败')
-            BaseTestCase.logger.error(str(e))
+            BaseTestCase.logger.error('Click failed\n({})'.format(str(e)))
             raise
         else:
-            BaseTestCase.logger.info('点击元素成功')
+            BaseTestCase.logger.info('Click Success')
 
-    # 文本清除操作方法
-    def clear_element_text(self, element_type, element):
+    def element_clear_text(self, element_type, element):
         try:
-            BaseTestCase.logger.info('清除元素占位符... --> 元素名称：' + element)
+            BaseTestCase.logger.info('Clear characters in element({})'.format(element))
             self.driver.find_element(element_type, element).clear()
         except Exception as e:
-            BaseTestCase.logger.info('清除元素占位符失败')
-            BaseTestCase.logger.error(str(e))
+            BaseTestCase.logger.error('Failed to clear characters within an element\n()'.format(str(e)))
             raise
         else:
-            BaseTestCase.logger.info('清除元素占位符成功')
+            BaseTestCase.logger.info('Clear the characters in the element successfully')
 
-    # 断言
-    def assertion_element(self, result, element):
+    def element_assertion(self, result, element):
         try:
             BaseTestCase.logger.info('断言,元素对比... --> 元素名称：' + result + '==' + element)
             self.assertEqual(result, element)
@@ -83,8 +72,7 @@ class SeleiumNew(BaseTestCase):
         else:
             BaseTestCase.logger.info('断言成功')
 
-    # 触发实体按键
-    def simulation_menu_key(self, key_code):
+    def entity_key_trigger(self, key_code):
         try:
             BaseTestCase.logger.info('触发实体按键... --> 按键代码：' + str(key_code))
             self.driver.keyevent(key_code)
@@ -95,8 +83,7 @@ class SeleiumNew(BaseTestCase):
         else:
             BaseTestCase.logger.info('触发实体按键成功')
 
-    # 长按实体按键
-    def simulation_long_press_menu_key(self, key_code):
+    def entity_key_long_press(self, key_code):
         try:
             BaseTestCase.logger.info('长按实体按键... --> 按键代码：' + str(key_code))
             self.driver.long_press_keycode(key_code)
@@ -107,27 +94,6 @@ class SeleiumNew(BaseTestCase):
         else:
             BaseTestCase.logger.info('长按实体按键成功')
 
-    # 触发实体按键
-    def press_keycod(self, key_code):
-        try:
-            BaseTestCase.logger.info('触发实体按键... --> 按键代码：' + str(key_code))
-            self.driver.press_keycode(key_code)
-        except Exception as e:
-            BaseTestCase.logger.info('触发实体按键失败')
-            BaseTestCase.logger.error(str(e))
-            raise
-        else:
-            BaseTestCase.logger.info('触发实体按键成功')
-
-    # 滑动验证码方法
-    def simulated_sliding(self, element):
-        button = self.driver.find_element_by_id(element)  # 找到“蓝色滑块”
-        action = ActionChains(self.driver)  # 实例化一个action对象
-        action.click_and_hold(button).perform()  # perform()用来执行ActionChains中存储的行为
-        action.reset_actions()
-        action.move_by_offset(260, 0).perform()  # 移动滑块
-        SeleiumNew.wait_element(self, "class", "nc_iconfont btn_ok")
-
 
 class InputMethod(BaseTestCase):
     # 'adb shell ime list -s'  # 列出系统现在所安装的所有输入法
@@ -136,7 +102,6 @@ class InputMethod(BaseTestCase):
     # 'adb shell ime set io.appium.android.ime/.UnicodeIME'  # 切换appium输入法为当前输入法
     # 'adb shell ime set com.sohu.inputmethod.sogouoem/.SogouIME'  # 切换appium输入法为搜狗输入法oppo版
 
-    # 切换输入法
     def enableIME(self, command):
         try:
             BaseTestCase.logger.info('切换输入法...' + str(command))

@@ -6,30 +6,29 @@ import time
 
 class Logger:
     def __init__(self):
-        # 创建一个logger
+        # Create a logger
         self.logger = logging.getLogger('App')
         self.logger.setLevel(logging.DEBUG)
 
-        # 判断需要的log文件夹是否存在，否则创建一个
+        # Create a handler to write to the log file
         log_dir = os.path.dirname(os.path.abspath('.')) + '/output/logs/'
+        # Determine whether the required folder exists, otherwise create a
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
+        log_dir = log_dir + time.strftime('%Y-%m-%d-%H-%M-%S') + '.log'
 
-        # 创建一个handler，用于写入日志文件
-        rq = time.strftime('%Y-%m-%d-%H-%M-%S')
-        log_name = log_dir + rq + '.log'
-        fh = logging.FileHandler(log_name, encoding='utf-8')
+        fh = logging.FileHandler(log_dir, encoding='utf-8')
         fh.setLevel(logging.INFO)
 
-        # 再创建一个handler，用于输出到控制台
+        # Create another handler to output to the console
         ch = logging.StreamHandler()
         ch.setLevel(logging.INFO)
 
-        # 定义handler的输出格式
+        # Define the output format of handler
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)
         ch.setFormatter(formatter)
 
-        # 给logger添加handler
+        # Add handler to logger
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)

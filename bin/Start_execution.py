@@ -1,95 +1,52 @@
 # -*- coding: utf-8 -*-
 from bin.Inital_Data import BaseTestCase
-from bin import HTMLTestRunner
+from bin.HTMLTestRunner import HTMLTestRunner
 import unittest
 import time
 import os
 import yagmail
 
+if __name__ == '__main__':
 
-class FrameEngine(object):
-    # 判断需要的测试报告文件夹是否存在，否则创建一个
-    report_dir = os.path.dirname(os.path.abspath('.')) + '/output/test_report/'
-    if not os.path.exists(report_dir):
-        os.makedirs(report_dir)
+    try:
+        case_name = "case*.py"
+        cur_path = os.path.dirname(os.path.abspath('.')) + '/test_case/'  # 当前脚本所在文件真实路径
+        BaseTestCase.logger.info('Start loading case named ({}) in folder({})'.format(case_name, cur_path))
+        discover = unittest.defaultTestLoader.discover(cur_path,
+                                                       pattern=case_name,
+                                                       top_level_dir=None)
+    except Exception as e:
+        BaseTestCase.logger.error('Test case loading failed\n({})'.format(str(e)))
+        raise
+    else:
+        BaseTestCase.logger.info("Test case loaded successfully")
 
-    @staticmethod
-    def add_case(rule="case*.py"):
-        try:
-            BaseTestCase.logger.info("正在加载测试用例...")
-            # 第一步：加载所有的测试用例
-            cur_path = os.path.dirname(os.path.abspath('.')) + '/test_case/'  # 当前脚本所在文件真实路径
-            discover = unittest.defaultTestLoader.discover(cur_path,
-                                                           pattern=rule,
-                                                           top_level_dir=None)
-        except Exception as e:
-            BaseTestCase.logger.info("加载测试用例失败")
-            BaseTestCase.logger.error(str(e))
-            raise
-        else:
-            BaseTestCase.logger.info("成功加载测试用例")
-            return discover
+    try:
+        BaseTestCase.logger.info('Start recording test report')
+        now = time.strftime('%Y-%m-%d-%H-%M-%S')
+        report_dir = os.path.dirname(os.path.abspath('.')) + '/output/test_report/'
+        if not os.path.exists(report_dir):
+            os.makedirs(report_dir)
+        report_path = report_dir + now + "-result.html"
+        fp = open(report_path, "wb")
+        runner = HTMLTestRunner(stream=fp, title=u'自动化测试报告：', description=u'用例执行情况：')
+        runner.run(discover)
+        fp.close()
+    except Exception as e:
+        BaseTestCase.logger.error('Test report record failed\n({})'.format(str(e)))
+        raise
+    else:
+        BaseTestCase.logger.info('Test report recorded successfully({})'.format(report_path))
 
-    @staticmethod
-    def run_case(all_case):
-        try:
-            BaseTestCase.logger.info("开始生成HTML测试报告...")
-            # 第二步：执行所有的用例, 并把结果写入HTML测试报告
-            now = time.strftime('%Y-%m-%d-%H-%M-%S')
-            report_path = FrameEngine.report_dir + now + "-result.html"
-            fp = open(report_path, "wb")
-            runner = HTMLTestRunner.HTMLTestRunner(stream=fp,
-                                                   title=u'自动化测试报告,测试结果如下：',
-                                                   description=u'用例执行情况：')
-            # 调用add_case函数返回值
-            runner.run(all_case)
-            fp.close()
-        except Exception as e:
-            BaseTestCase.logger.info("生成HTML测试报告失败")
-            BaseTestCase.logger.error(str(e))
-            raise
-        else:
-            BaseTestCase.logger.info("生成HTML测试报告成功")
-
-    @staticmethod
-    def get_report_file(report_path):
-        try:
-            BaseTestCase.logger.info("正在获取最新HTML测试报告...")
-            # 第三步：获取最新的测试报告
-            lists = os.listdir(report_path)
-            lists.sort(key=lambda fn: os.path.getmtime(os.path.join(report_path, fn)))
-            # 找到最新生成的报告文件
-            case_file = os.path.join(report_path, lists[-1])
-        except Exception as e:
-            BaseTestCase.logger.info("获取最新HTML测试报告失败")
-            BaseTestCase.logger.error(str(e))
-            raise
-        else:
-            BaseTestCase.logger.info("获取最新HTML测试报告成功 -->" + lists[-1])
-            return case_file
-
-    @staticmethod
-    def send_yagmail(case_file):
-        try:
-            BaseTestCase.logger.info("正在发送邮箱...")
-            # 第四步：使用yagmail库发送最新的测试报告内容
-            # 链接邮箱服务器，用户密码自己改掉
-            yag = yagmail.SMTP(user="v_dennis@126.com", password="xx", host="smtp.126.com")
-            # 邮箱正文
-            contents = ['邮件正文', '用例执行情况：']
-            # 给多人发送邮件，发送多个附件。如果只发送1个，就去掉列表。
-            yag.send(['725365654@qq.com', '392274534@qq.com'], '邮件主题', contents, case_file)
-
-        except Exception as e:
-            BaseTestCase.logger.info("发送邮件失败")
-            BaseTestCase.logger.error(str(e))
-            raise
-        else:
-            BaseTestCase.logger.info("发送邮件成功")
-
-
-if __name__ == "__main__":
-    case = FrameEngine.add_case()  # 1加载用例
-    FrameEngine.run_case(case)  # 2执行用例
-    file = FrameEngine.get_report_file(FrameEngine.report_dir)  # 3获取最新的测试报告
-    # FrameEngine.send_yagmail(file)  # 4最后一步发送报告
+    # try:
+    #     BaseTestCase.logger.info('Start sending test report ({}) to mailbox'.format(report_path))
+    #     yag = yagmail.SMTP(user="xxx", password="xxx", host="smtp.126.com")
+    #     contents = ['邮件正文', '用例执行情况：']
+    #     Addressee = ['xx@qq.com', 'xxx@qq.com']
+    #     yag.send(Addressee, '邮件主题', contents, report_path)
+    #
+    # except Exception as e:
+    #     BaseTestCase.logger.error('Failed to send mail\n()'.format(str(e)))
+    #     raise
+    # else:
+    #     BaseTestCase.logger.info('Successfully test the test report to {} mailbox'.format(Addressee))

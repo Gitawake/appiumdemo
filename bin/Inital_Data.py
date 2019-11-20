@@ -7,52 +7,50 @@ import os.path
 
 
 class BaseTestCase(unittest.TestCase):
-    # 初始化log日志
+    # initialize log printing function
     logger = Logger().logger
-    logger.info("初始化log打印功能...")
+    logger.info('initialize log printing function')
 
     def setUp(self):
+
         try:
-            BaseTestCase.logger.info('正在与app建立session...')
-            # appium初始化参数，CMD下：adb connect 127.0.0.1:62001
-            desired_caps = {'platformName': "Android",
-                            'platformVersion': '8.1.0',
-                            'deviceName': 'MV7PAMPNU8IJ7SIV',
-                            'appPackage': 'com.zsyj.videomake',
-                            'appActivity': 'com.zsyj.videomake.ui.welcome.SplashActivity',
-                            'unicodeKeyboard': True,  # 使用Unicode编码方式发送字符串
-                            'resetKeyboard': True,  # 隐藏键盘
-                            }
-
-            # 建立 session
-            self.driver = webdriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)
+            # Start connection with app
+            BaseTestCase.logger.info('Start connection with app')
+            # If simulator is used, ADB connect 127.0.0.1:62001 under CMD
+            desired_caps = {
+                'platformName': "Android",
+                'platformVersion': '8.1.0',
+                'deviceName': 'MV7PAMPNU8IJ7SIV',
+                'appPackage': 'com.zsyj.videomake',
+                'appActivity': 'com.zsyj.videomake.ui.welcome.SplashActivity',
+                'unicodeKeyboard': True,  # Send string using Unicode encoding
+                'resetKeyboard': True,  # Hidden keyboard
+            }
+            self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+            time.sleep(3)
         except Exception as e:
-            BaseTestCase.logger.error('app建立session失败 \n' + format(e))
+            BaseTestCase.logger.error('Failed to establish connection with app\n({})'.format(e))
+            raise
         else:
-            BaseTestCase.logger.info('app建立session成功')
-
-        time.sleep(5)
+            BaseTestCase.logger.info('Successfully established connection with app')
 
     def tearDown(self):
 
-        # 截取运行结果图片
+        # Screenshots
         try:
-            BaseTestCase.logger.info("屏幕截图中...")
-            # 判断需要的png文件夹是否存在，否则创建一个
+            BaseTestCase.logger.info('Start Screenshots')
+            # Determine whether the required folder exists, otherwise create a
             png_dir = os.path.dirname(os.path.abspath('.')) + '/output/png/'
             if not os.path.exists(png_dir):
                 os.makedirs(png_dir)
-            now = time.strftime('%Y-%m-%d-%H-%M-%S')
-            self.driver.get_screenshot_as_file(png_dir + now + ".png")
-
+            png_dir = png_dir + time.strftime('%Y-%m-%d-%H-%M-%S') + '.png'
+            self.driver.get_screenshot_as_file(png_dir)
         except Exception as e:
-            BaseTestCase.logger.info("屏幕截图失败")
-            BaseTestCase.logger.error(str(e))
+            BaseTestCase.logger.error('Screenshots failed\n({})'.format(e))
         else:
-            BaseTestCase.logger.info("屏幕截图成功")
+            BaseTestCase.logger.info('Screenshots success')
 
-        # 单个用例执行完毕后关闭app
-        BaseTestCase.logger.info('******************************' +
-                                 str(time.strftime("%Y-%m-%d %H:%M:%S")) +
-                                 '******************************')
+        BaseTestCase.logger.info(
+            '---------------------------------------------{}---------------------------------------------'.format(
+                str(time.strftime("%Y-%m-%d %H:%M:%S"))))
         self.driver.quit()
