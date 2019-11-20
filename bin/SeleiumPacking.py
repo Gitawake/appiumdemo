@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from selenium.webdriver import ActionChains
-from bin.Inital_Data import BaseTestCase
+from bin.Main import BaseTestCase
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 

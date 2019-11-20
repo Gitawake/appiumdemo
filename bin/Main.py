@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bin.logger_Instance import Logger
+from bin.LoggerPacking import Logger
 from appium import webdriver
 import unittest
 import time

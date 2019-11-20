@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import time
 from selenium.webdriver.common.by import By
-from bin.seleium_package import SeleiumNew, InputMethod
+from bin.SeleiumPacking import SeleiumNew, InputMethod
 
 
 class Qzz(SeleiumNew, InputMethod):
 
     # 初始化启动app
-    def mtest_qzz_Initialization(self):
+    def test_qzz_Initialization(self):
 
         # 判断权限使用弹框是否存在，存在则点击开启。
         if SeleiumNew.element_is_exist(self, By.ID, 'com.zsyj.videomake:id/btn_dialog_open'):
@@ -46,7 +46,7 @@ class Qzz(SeleiumNew, InputMethod):
         SeleiumNew.element_explicitly_wait(self, 10, By.ID, 'com.zsyj.videomake:id/btn_done')
 
     # 搜索页面测试
-    def test_qzz_search(self):
+    def mtest_qzz_search(self):
 
         Qzz.mtest_qzz_Initialization(self)
         time.sleep(2)

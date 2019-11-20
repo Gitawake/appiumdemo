@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bin.Inital_Data import BaseTestCase
+from bin.Main import BaseTestCase
 from bin.HTMLTestRunner import HTMLTestRunner
 import unittest
 import time
